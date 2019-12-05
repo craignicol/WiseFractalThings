@@ -12,6 +12,12 @@ def valid_password(password):
     if len(set(digits)) > 5: # No duplicates
         return False
 
+    counts = [0] * 10
+    for d in digits:
+        counts[d] += 1
+    if 2 not in counts:
+        return False
+
     return True
 
 def execute():
@@ -27,9 +33,12 @@ def verify(a, b):
 
 def test_cases():
     verify(False, valid_password("1"))
-    verify(True, valid_password("111111"))
+    # verify(True, valid_password("111111")) # Not valid in part 2
     verify(False, valid_password("223450"))
     verify(False, valid_password("123789"))
+    verify(True, valid_password("112233"))
+    verify(False, valid_password("123444"))
+    verify(True, valid_password("111122"))
 
 if __name__ == "__main__":
     test_cases()
