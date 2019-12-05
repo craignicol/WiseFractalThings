@@ -2,21 +2,21 @@
 
 def trace(path):
     x, y = 0,0
-    tracing = []
+    tracing = set()
     for line in path:
         direction = line[0]
         magnitude = int(line[1:])
         if (direction == "R"):
-            tracing += [(x, y) for x in range(x+1, x+magnitude+1)]
+            tracing = tracing.union({(x, y) for x in range(x+1, x+magnitude+1)})
             x += magnitude
         elif (direction == "L"):
-            tracing += [(x, y) for x in range(x-magnitude, x)]
+            tracing = tracing.union({(x, y) for x in range(x-magnitude, x)})
             x -= magnitude
         elif (direction == "D"):
-            tracing += [(x, y) for y in range(y+1, y+magnitude+1)]
+            tracing = tracing.union({(x, y) for y in range(y+1, y+magnitude+1)})
             y += magnitude
         elif (direction == "U"):
-            tracing += [(x, y) for y in range(y-magnitude, y)]
+            tracing = tracing.union({(x, y) for y in range(y-magnitude, y)})
             y -= magnitude
     return tracing
 
