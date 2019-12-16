@@ -6,8 +6,8 @@ def execute():
     orbits = [l.strip() for l in lines]
     return count_orbits(orbits), shortest_route(orbits)
 
-def verify(a, b):
-    if (a == b):
+def verify(expected, actual):
+    if (expected == actual):
         print("✓")
         return
     
@@ -41,12 +41,25 @@ K)L
 K)YOU
 I)SAN"""
 
+# Need to find lowest common orbit
 def shortest_route(input1):
     START = "YOU"
     END = "SAN"
     cleansed = [o.split(")") for o in input1]
-    planets = measure_routes(cleansed)
-    return planets[START], planets[END]
+    planets = plan_routes(cleansed)
+    return len(set(planets[START]) ^ set(planets[END]))
+
+def plan_routes(input1):
+    planetset = [(x[1], []) for x in input1] + [(ROOT_NODE, [])]
+    planets = dict(planetset)
+    next_planets = [x for x in input1 if x[0] == ROOT_NODE]
+    while len(next_planets) > 0:
+        for ip in next_planets:
+            planets[ip[1]] = planets[ip[0]] + [ip[0]]
+        ips = [p[1] for p in next_planets]
+        next_planets = [x for x in input1 if x[0] in ips]
+    
+    return planets
 
 def measure_routes(input1):
     planets = dict({(x[1], 0) for x in input1})
