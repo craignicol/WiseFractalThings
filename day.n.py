@@ -5,12 +5,12 @@ def execute():
         lines = inp.readlines()
     return len([l.strip() for l in lines if len(l.strip()) > 0])
 
-def verify(a, b):
-    if (a == b):
+def verify(expected, actual):
+    if (expected == actual):
         print("✓")
         return
-    
-    print (locals())
+    else:
+        print (locals())
 
 def test_cases():
     pass
