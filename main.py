@@ -16,4 +16,6 @@ def run_day(n):
 # run_day(5)
 # run_day(6)
 # run_day(7)
-run_day(8)
+# run_day(8)
+### skip a few
+run_day(14)
