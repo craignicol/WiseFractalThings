@@ -53,6 +53,7 @@ def ore_for_fuel(rules):
     composition = defaultdict(int)
     composition['FUEL'] = 1
     composition['ORE'] = 0
+    # This needs to search for minimum
     while len(composition) > 1:
         k = list(composition.keys())
         atom = k[-1] if k[-1] != 'ORE' else k[-2]
