@@ -16,9 +16,12 @@ def verify(expected, actual):
 
 base_pattern = [0, 1, 0, -1]
 
+mult_f = {-1: '-', 0: '.', +1: '+'}
+
 def one_digit(inp, pos):
     pos_pattern = [0] * (pos+1) + [1] * (pos+1) + [0] * (pos+1) + [-1] * (pos+1)
     mult_pattern = (pos_pattern * ((len(inp) // len(pos_pattern)+1)))[1:len(inp)+1]
+    print('*', ''.join([mult_f[m] for m in mult_pattern]))
     return abs(sum([a*b for a,b in zip(inp, mult_pattern)])) % 10
 
 def one_phase(inp):
@@ -35,7 +38,14 @@ def fft(inp, phases):
     return inp
 
 def fft_f(inp, phases):
-    return ''.join([str(i) for i in fft(inp,phases)[:8]])
+    return ''.join([str(i) for i in fft(inp,phases)[:]])
+
+def fft_fast(inp, phases):
+    out = [(int(i)+5) % 10 for i in inp[:-4]] + [int(i) for i in inp[-4:]]
+    return out
+
+def fft_fast_f(inp, phases):
+    return ''.join([str(i) for i in fft_fast(inp,phases)[:]])
 
 def test_cases():
     print("--- one_phase")
@@ -49,10 +59,19 @@ def test_cases():
     verify("73745418", fft_f("19617804207202209144916044189917", 100))
     verify("52432133", fft_f("69317163492948606335995924319873", 100))
 
-"""80871224585914546619083218645595 becomes 24176176.
-19617804207202209144916044189917 becomes 73745418.
-69317163492948606335995924319873 becomes 52432133."""
+    print("--- 10k fft")
+    verify(fft_f("80871224585914546619083218645595", 100), fft_fast_f("80871224585914546619083218645595", 100))
+    verify(fft_f("19617804207202209144916044189917", 100), fft_fast_f("19617804207202209144916044189917", 100))
+    verify(fft_f("69317163492948606335995924319873", 100), fft_fast_f("69317163492948606335995924319873", 100))
+
+
+"""
+{'expected': '24176176480919046114038763195595',              'actual': '35326779030469091164538763195595'}
+{'expected': '73745418557257259149466599639917', 
+   'actual': '64162359752757754699461599639917'}
+{'expected': '52432133292998606880495974869873',
+   'actual': '14862618947493151880440479869873'}"""
 
 if __name__ == "__main__":
     test_cases()
-    print(execute())
+    # print(execute())
